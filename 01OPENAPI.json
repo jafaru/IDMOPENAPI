@@ -1,0 +1,201 @@
+{
+    "openapi": "3.0.1",
+    "info": {
+        "title": "IDM APIs",
+        "description": "These are APIs to maintain Contact in IDM",
+        "contact": {
+            "email": "test@cn.ibm.com"
+        },
+        "version": "1.0.2"
+    },
+    "externalDocs": {
+        "description": "Find out more about IDM",
+        "url": "https://w3.ibm.com/w3publisher/individual-data-master"
+    },
+    "servers": [
+        {
+            "url": "https://sub-test.968d96a4.public.multi-containers.ibm.com",
+            "description": "local server"
+        }
+    ],
+    "tags": [
+        {
+            "name": "IDM",
+            "description": "IDM suppress email API",
+            "externalDocs": {
+                "description": "Find out more",
+                "url": "TBD"
+            }
+        }
+    ],
+    "paths": {
+        "/getSubscriptions": {
+            "post": {
+                "tags": [
+                    "PrivPref"
+                ],
+                "summary": "get email privacy preference.",
+                "operationId": "getsub",
+                "requestBody": {
+                    "description": "send single email to get email privacy preference",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/EMAIL"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Request been processed succeeds and MDM return success,  or api request has quarantined email",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/getSubResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Authentication/Authorization failure",
+                        "content": {}
+                    },
+                    "500": {
+                        "description": "Request can't be process right now. Contact IDM support team please.",
+                        "content": {}
+                    }
+                },
+                "security": [
+                    {
+                        "idm_bearer": []
+                    }
+                ]
+            }
+        },
+        "/suppressEmail": {
+            "post": {
+                "tags": [
+                    "PrivPref"
+                ],
+                "summary": "update email privacy preference.",
+                "operationId": "suppressemail",
+                "requestBody": {
+                    "description": "send emails to suppress it.",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/EMAIL_PRIVPREF"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Request been processed successfully",
+                        "content": {}
+                    },
+                    "201": {
+                        "description": "Request fail when call MDM or fail when updating MIP tables.",
+                        "content": {}
+                    },
+                    "401": {
+                        "description": "Authentication/Authorization failure",
+                        "content": {}
+                    },
+                    "500": {
+                        "description": "Request can't be process right now. Contact IDM support team please.",
+                        "content": {}
+                    }
+                },
+                "security": [
+                    {
+                        "idm_bearer": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "EMAIL": {
+                "type": "object",
+                "properties": {
+                    "email": {
+                        "type": "string",
+                        "description": "email address use to fetch preference"
+                    }
+                }
+            },
+            "getSubResponse": {
+                "type": "object",
+                "properties": {
+                    "email": {
+                        "type": "string",
+                        "example": "john.doe@ibm.com"
+                    },
+                    "preferences": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "example": [
+                            "07xxxxx67bc39f2e",
+                            "07xxxxx67bc39f2f"
+                        ]
+                    }
+                }
+            },
+            "EMAIL_PRIVPREF": {
+                "required": [
+                    "email"
+                ],
+                "type": "object",
+                "properties": {
+                    "email": {
+                        "type": "string",
+                        "example": "john.doe@ibm.com"
+                    },
+                    "origTransid": {
+                        "type": "string",
+                        "example": "trans000001"
+                    },
+                    "cmpn": {
+                        "type": "string",
+                        "example": "campaign 001"
+                    },
+                    "reason": {
+                        "type": "string",
+                        "example": "CR"
+                    },
+                    "timestamp": {
+                        "type": "string",
+                        "example": "2022-08-21T6:57:04Z"
+                    }
+                }
+            }
+        },
+        "securitySchemes": {
+            "idm_bearer": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            },
+            "idm_basic": {
+                "type": "http",
+                "scheme": "basic"
+            },
+            "idm_oauth": {
+                "type": "oauth2",
+                "flows": {
+                    "clientCredentials": {
+                        "tokenUrl": "https://eu-de.appid.cloud.ibm.com/oauth/v4/bcaefcc9-2d5c-48cd-b934-29d1e6f75e37/token",
+                        "scopes": {}
+                    }
+                }
+            }
+        }
+    }
+}
