@@ -2,6 +2,7 @@
     "openapi": "3.0.1",
     "info": {
       "title": "getEmailPrivPref",
+	  "x-providerName": "Verticurl Adobe Marketo Engage",
       "description": "This is a POC implementation get email preference from IBM",
       "termsOfService": "https://documents.marketo.com/legal/eusa/us/2012-08-28/",
       "license": {
