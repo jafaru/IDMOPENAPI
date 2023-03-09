@@ -1,0 +1,90 @@
+{
+    "openapi": "3.0.1",
+    "info": {
+      "title": "getEmailPrivPref",
+      "description": "This is a POC implementation get email preference from IBM",
+      "termsOfService": "https://documents.marketo.com/legal/eusa/us/2012-08-28/",
+      "license": {
+        "name": "Marketo API License",
+        "url": "https://developers.marketo.com/api-license/"
+      },
+      "version": "0.1.0"
+    },
+    "externalDocs": {
+      "description": "Find out more about Swagger",
+      "url": "https://idm-sub.968d96a4.public.multi-containers.ibm.com"
+    },
+     "servers": [
+        {
+            "url": "https://idm-sub.968d96a4.public.multi-containers.ibm.com",
+            "description": "local server"
+        }
+    ],
+     "security": [
+  
+    {
+      "basic": []
+    }
+   
+  ],
+    "paths": {
+      "/getEmailPrivPref": {
+        "description": "",
+        "post": {
+          "operationId": "getEmailPrivPref",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/getEmailPrivPref"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "OK"
+            },
+            "400": {
+              "description": "Bad Request:\n- Expected parameters were missing from the request or were invalid or Invalid document structure"
+            },
+            "401": {
+              "description": "Unauthorized:\n- The API credentials which Marketo has are not authorized to undertake the action"
+            },
+            "403": {
+              "description": "Forbidden:\n- Authentication Failed"
+            },
+            "429": {
+              "description": "Too Many Requests:\n- The service has received too many requests and should retry w/ an appropriate strategy"
+            },
+            "500": {
+              "description": "Internal Server Error:\n- Invoking the service failed for an unknown reason"
+            }
+          }
+        }
+      }
+    },
+    "components": {
+      "schemas": {
+          "getEmailPrivPref":{
+              "type": "object",
+              "required": [ "email"],
+              "properties": {
+                 
+                  "email":{
+                      "type": "string",
+                      "description": "email"
+                  }
+                }
+          }
+      },
+      "securitySchemes": {
+        "basic": {
+          "type": "http",
+          "scheme": "basic"
+          
+        }
+      }
+    }
+  }
